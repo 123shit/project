@@ -1,41 +1,9 @@
 import socket
 import socketserver  # 导入socketserver模块
-import hashlib
+from classes.EASecure import EASecure
 
 _key = '29dQrqxAJOgHA3IC5kXYNscvfjAOEB7u'
 _lineBr = '<-------------------------------------'
-
-# 安全类
-class EASecure():
-
-    def __init__(self):
-        return
-
-    def md5(self, String):
-        m = hashlib.md5()
-        m.update(bytes(String, encoding="utf8"))
-        return m.hexdigest()
-
-    # 数据签名
-    def createSign(self, RawData, Key):
-        return self.md5(RawData + '|' + Key)
-
-    # 拆分原始数据
-    def getOriginData(self, OriginData):
-        # 数据分割
-        Sp = str(OriginData).split('|')
-        # 校验签名
-        return Sp[0]
-
-    # 检查签名
-    def checkSign(self, OriginData, Key):
-        # 数据分割
-        Sp = str(OriginData).split('|')
-        # 待签名数据
-        ToSign = Sp[0] + '|' + Sp[1]
-        Signed = self.createSign(ToSign, Key)
-        # 校验签名
-        return Signed == Sp[2]
 
 # Socket服务
 class EASProxyServer(socketserver.BaseRequestHandler):
@@ -46,7 +14,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
     def SendMt4Server(self, Message):
         try:
             Mt4Connection = socket.socket()
-            Mt4Connection.connect(("dootest.fincdn.com", 3061))  # 主动初始化与服务器端的连接
+            Mt4Connection.connect(("fin.ds.fincdn.com", 443))  # 主动初始化与服务器端的连接
             Mt4Connection.send(bytes(Message, encoding="utf8"))
             RespData = Mt4Connection.recv(1024)
             print(str(RespData, encoding="utf8"))
@@ -107,15 +75,15 @@ class EASProxy():
 
     _socket = False
     _socketListen = '127.0.0.1'
-    _socketPort = 9501
+    _socketPort = 9071
 
     def __init__(self):
         return
 
     def run(self):
+        # 通过调用对象的serve_forever()方法来激活服务端
+        print("Listening {} On [{}]".format(self._socketListen, self._socketPort))
         sever = socketserver.ThreadingTCPServer((self._socketListen, self._socketPort), EASProxyServer)
         # 传入 端口地址 和 我们新建的继承自socketserver模块下的BaseRequestHandler类  实例化对象
         sever.serve_forever()
-        # 通过调用对象的serve_forever()方法来激活服务端
-        print("Listening {} On [{}]".format(self._socketListen, self._socketPort))
         return
