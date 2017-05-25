@@ -54,6 +54,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                         conn.close()
                         self.wLog(IpAddress, "Disconnected!")
                         logging.info(_lineBr)
+                        self.finish()
                         return
 
                     # log
@@ -65,7 +66,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                     if not CheckVailIp:
                         logging.critical("Go to Hell Ip {}:{}".format(IpAddress, IpPort))
                         logging.info(_lineBr)
-                        conn.close()
+                        self.finish()
                         return False
 
                     # 安全过滤
@@ -74,7 +75,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                     if not CheckVail:
                         logging.critical("Go to Hell {}:{}".format(IpAddress, IpPort))
                         logging.info(_lineBr)
-                        conn.close()
+                        self.finish()
                         return False
 
                     # 检查数据签名
@@ -83,7 +84,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                         #　签名有误，直接断开
                         self.wLog(IpAddress, "CheckSign Failed!")
                         logging.info(_lineBr)
-                        conn.close()
+                        self.finish()
                         return False
 
                     self.wLog(IpAddress, "CheckSign Success!")
@@ -91,8 +92,8 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                     # 发送数据给Mt4
                     RespData = self.SendMt4Server(Buffer)
                     conn.sendall(RespData)
-                    conn.close()
                     logging.info(_lineBr)
+                    self.finish()
                     return
 
                 except ConnectionAbortedError as Err:
