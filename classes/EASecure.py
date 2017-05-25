@@ -102,5 +102,5 @@ class EASecure():
     def blackHole(self, Ip):
         logging.critical("{} Has Been Block!".format(Ip))
         # 屏蔽IP
-        os.system("iptables -t filter -R INPUT 1 -s {}/16 -p tcp --dport 9516 -j REJECT".format(Ip))
+        os.system("iptables -I INPUT -s {} -j DROP".format(Ip))
         return False
