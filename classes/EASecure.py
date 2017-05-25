@@ -13,7 +13,8 @@ class EASecure():
 
     # 数据签名
     def createSign(self, RawData, Key):
-        return self.md5(RawData + '|' + Key)
+        RawData = RawData.replace("'", '')
+        return self.md5('|' +RawData + '|' + Key)
 
     # 拆分原始数据
     def getOriginData(self, OriginData):
@@ -27,7 +28,6 @@ class EASecure():
         # 数据分割
         Sp = str(OriginData).split('|')
         # 待签名数据
-        ToSign = Sp[0] + '|' + Sp[1]
-        Signed = self.createSign(ToSign, Key)
+        Signed = self.createSign(Sp[2], Key)
         # 校验签名
-        return Signed == Sp[2]
+        return Signed == Sp[1]

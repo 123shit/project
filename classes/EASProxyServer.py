@@ -48,21 +48,21 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                         logging.info(_lineBr)
                         return
 
-                    # 处理客户端的消息
-                    AcceptData = str(Buffer, encoding="utf8")
-
                     # log
-                    self.wLog(IpAddress, "Get Data {}".format(AcceptData))
+                    self.wLog(IpAddress, "Get Data {}".format(Buffer))
 
                     # 检查数据签名
-                    CheckSign = self.EASecure.checkSign(AcceptData, _key)
+                    CheckSign = self.EASecure.checkSign(Buffer, _key)
                     if not CheckSign:
                         self.wLog(IpAddress, "CheckSign Failed!")
                         logging.info(_lineBr)
                     self.wLog(IpAddress, "CheckSign Success!")
 
+                    # 处理客户端的消息
+                    Buffer = str(Buffer).split('|')
+
                     # 发送数据给Mt4
-                    self.SendMt4Server(self.EASecure.getOriginData(AcceptData))
+                    self.SendMt4Server(Buffer[0])
 
                     send_data = bytes("Success", encoding="utf8")
                     conn.sendall(send_data)
