@@ -103,4 +103,4 @@ class EASecure():
         logging.critical("{} Has Been Block!".format(Ip))
         if platform.system() == "Linux":
             # 屏蔽IP
-            os.system("iptables -t filter -R INPUT 1 -s {}/16 -p tcp --dport 9999 -j REJECT".format(Ip))
+            os.system("iptables -t filter -R INPUT 1 -s {}/16 -p tcp --dport 9516 -j REJECT".format(Ip))

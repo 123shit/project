@@ -16,7 +16,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
         logging.info("Server Transmit Data: {}".format(Message))
         try:
             Mt4Connection = socket.socket()
-            Mt4Connection.connect(("103.242.72.46", 9501))  # 主动初始化与服务器端的连接
+            Mt4Connection.connect(("fin.ls.fincdn.com", 9503))  # 主动初始化与服务器端的连接
             bMessage = []
             for tmp in Message:
                 if tmp == 124:
