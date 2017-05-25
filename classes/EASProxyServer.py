@@ -13,19 +13,17 @@ class EASProxyServer(socketserver.BaseRequestHandler):
 
     # 发送数据到Mt4Server
     def SendMt4Server(self, Message):
-        logging.info("Server Transmit Data: {}".format(Message))
         try:
             Mt4Connection = socket.socket()
             Mt4Connection.connect(("fin.ls.fincdn.com", 9503))  # 主动初始化与服务器端的连接
             bMessage = []
             for tmp in Message:
                 if tmp == 124:
-                    print(1)
                     break
                 else:
                     bMessage.append(tmp)
             bMessage = bytes(bMessage)
-            # bMessage = b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03'
+            logging.info("Server Transmit Data: {}".format(bMessage))
             Mt4Connection.send(bMessage)
             RespData = Mt4Connection.recv(1024)
             logging.info("Server Response Success: {} bytes".format(len(RespData)))
