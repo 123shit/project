@@ -5,11 +5,22 @@ from classes.EASecure import EASecure
 EASecure = EASecure()
 
 testKey = '29dQrqxAJOgHA3IC5kXYNscvfjAOEB7u'
-testData = b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03|c4ef99ca6eaf3b9d588c65b3146c78ac|1495690961'
+testData = b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03|d14c4814e3834bc508ba8be48b1ea99a|99920170525.13:54:24.98541'
 
 sk = socket.socket()
 sk.connect(("127.0.0.1", 9999))  # 主动初始化与服务器端的连接
 sk.send(testData)
+accept_data = sk.recv(1024)
+print(accept_data)
+sk.close()
+
+# sk = socket.socket()
+# sk.connect(("103.242.72.46", 9501))  # 主动初始化与服务器端的连接
+# sk.send(b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03')
+# accept_data = sk.recv(1024)
+# print(accept_data)
+# # print(str(accept_data, encoding="utf8"))
+# sk.close()
 
 # 测试签名算法
 SignCheck = EASecure.checkSign(testData, testKey)

@@ -13,17 +13,27 @@ class EASProxyServer(socketserver.BaseRequestHandler):
 
     # 发送数据到Mt4Server
     def SendMt4Server(self, Message):
+        logging.info("Server Transmit Data: {}".format(Message))
         try:
             Mt4Connection = socket.socket()
-            Mt4Connection.connect(("fin.ls.fincdn.com", 9503))  # 主动初始化与服务器端的连接
-            Mt4Connection.send(bytes(Message, encoding="utf8"))
+            Mt4Connection.connect(("103.242.72.46", 9501))  # 主动初始化与服务器端的连接
+            bMessage = []
+            for tmp in Message:
+                if tmp == 124:
+                    print(1)
+                    break
+                else:
+                    bMessage.append(tmp)
+            bMessage = bytes(bMessage)
+            # bMessage = b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03'
+            Mt4Connection.send(bMessage)
             RespData = Mt4Connection.recv(1024)
-            logging.debug(str(RespData, encoding="utf8"))
             logging.info("Server Response Success: {}".format(RespData))
             Mt4Connection.close()
+            return RespData
         except Exception as Err:
             logging.critical("Server Send Err: {}".format(Err))
-        logging.info("Server Transmit Data: {}".format(Message))
+            return b''
 
     def wLog(self, Addr, Message):
         logging.info("Client <{}> {}".format(Addr, Message))
@@ -58,14 +68,13 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                         logging.info(_lineBr)
                     self.wLog(IpAddress, "CheckSign Success!")
 
-                    # 处理客户端的消息
-                    Buffer = str(Buffer).split('|')
-
                     # 发送数据给Mt4
-                    self.SendMt4Server(Buffer[0])
+                    RespData = self.SendMt4Server(Buffer)
+                    conn.sendall(RespData)
+                    conn.close()
+                    logging.info(_lineBr)
+                    return
 
-                    send_data = bytes("Success", encoding="utf8")
-                    conn.sendall(send_data)
                 except ConnectionAbortedError as Err:
                     self.wLog(IpAddress, "Disconnected!")
                     logging.info(_lineBr)
