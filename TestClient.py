@@ -1,6 +1,6 @@
 import socket
 import time
-from classes.EASProxy import EASecure
+from classes.EASecure import EASecure
 
 EASecure = EASecure()
 
@@ -16,7 +16,7 @@ else:
     print("Fuck")
 
 sk = socket.socket()
-sk.connect(("127.0.0.1", 9501))  # 主动初始化与服务器端的连接
+sk.connect(("127.0.0.1", 9071))  # 主动初始化与服务器端的连接
 # 原始数据
 rawdata = '02000000070134e703000003'
 # 时间戳 1495639878
