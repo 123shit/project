@@ -61,6 +61,15 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                     # log
                     self.wLog(IpAddress, "Get Data {}".format(Buffer))
 
+                    CheckVailIp = self.EASecure.filterIp(IpAddress)
+
+                    # IP频率限制
+                    if not CheckVailIp:
+                        logging.critical("Go to Hell Ip {}:{}".format(IpAddress, IpPort))
+                        logging.info(_lineBr)
+                        conn.close()
+                        return False
+
                     # 安全过滤
                     CheckVail = self.EASecure.filter(self.EASecure.getSerial(Buffer), IpAddress)
 

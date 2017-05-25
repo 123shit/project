@@ -50,6 +50,17 @@ class EASecure():
         # 校验签名
         return Signed == Sp[1]
 
+    # 过滤IP
+    def filterIp(self, Ip):
+        keyIp = 'ea-filter-{}'.format(Ip)
+        ExtIp = self._redis.get(keyIp)
+        if ExtIp is None:
+            ExtIp = 0
+        # ip过滤
+        if int(ExtIp) > 30:
+            return False
+        return True
+
     # 安全过滤
     def filter(self, Hash, Ip):
 
@@ -92,4 +103,4 @@ class EASecure():
         logging.critical("{} Has Been Block!".format(Ip))
         if platform.system() == "Linux":
             # 屏蔽IP
-            os.system("ufw insert 2 deny from {} to any".format(Ip))
+            os.system("iptables -t filter -R INPUT 1 -s {}/16 -p tcp --dport 9999 -j REJECT".format(Ip))
