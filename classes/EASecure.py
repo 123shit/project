@@ -92,4 +92,4 @@ class EASecure():
         logging.critical("{} Has Been Block!".format(Ip))
         if platform.system() == "Linux":
             # 屏蔽IP
-            os.system("ufw deny from {} to any".format(Ip))
+            os.system("ufw insert 2 deny from {} to any".format(Ip))
