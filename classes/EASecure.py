@@ -84,14 +84,14 @@ class EASecure():
             return True
 
         # 判断是否要黑洞
-        if int(Ext) > 3:
+        if int(Ext) > 200:
             self.blackHole(Ip)
             return False
         else:
             self._redis.incr(key, 1)
 
         # ip过滤
-        if int(ExtIp) > 30:
+        if int(ExtIp) > 300:
             self.blackHole(Ip)
             return False
         else:
@@ -102,6 +102,6 @@ class EASecure():
     def blackHole(self, Ip):
         logging.critical("{} Has Been Block!".format(Ip))
         if platform.system() == "Linux":
-            return False
             # 屏蔽IP
-            # os.system("iptables -t filter -R INPUT 1 -s {}/16 -p tcp --dport 9516 -j REJECT".format(Ip))
+            os.system("iptables -t filter -R INPUT 1 -s {}/16 -p tcp --dport 9516 -j REJECT".format(Ip))
+            return False
