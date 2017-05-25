@@ -28,7 +28,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
             # bMessage = b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03'
             Mt4Connection.send(bMessage)
             RespData = Mt4Connection.recv(1024)
-            logging.info("Server Response Success: {}bytes".format(len(RespData)))
+            logging.info("Server Response Success: {} bytes".format(len(RespData)))
             Mt4Connection.close()
             return RespData
         except Exception as Err:
