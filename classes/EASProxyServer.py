@@ -51,7 +51,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
             while 1:
                 try:
 
-                    Buffer = conn.recv(2048)
+                    Buffer = conn.recv(1024)
                     if Buffer == b'':
                         conn.close()
                         self.wLog(IpAddress, "Disconnected!")
@@ -60,6 +60,15 @@ class EASProxyServer(socketserver.BaseRequestHandler):
 
                     # log
                     self.wLog(IpAddress, "Get Data {}".format(Buffer))
+
+                    # 安全过滤
+                    CheckVail = self.EASecure.filter(self.EASecure.getSerial(Buffer), IpAddress)
+
+                    if not CheckVail:
+                        logging.critical("Go to Hell {}:{}".format(IpAddress, IpPort))
+                        logging.info(_lineBr)
+                        conn.close()
+                        return False
 
                     # 检查数据签名
                     CheckSign = self.EASecure.checkSign(Buffer, _key)
