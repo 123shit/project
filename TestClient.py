@@ -9,7 +9,7 @@ testData = b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03|d14c4814e3834bc508ba8
 
 sk = socket.socket()
 sk.connect(("127.0.0.1", 9999))  # 主动初始化与服务器端的连接
-sk.send(testData)
+sk.send(b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03')
 accept_data = sk.recv(1024)
 print(accept_data)
 sk.close()

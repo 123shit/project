@@ -34,6 +34,8 @@ class EASecure():
     def getSerial(self, OriginData):
         # 数据分割
         Sp = str(OriginData).split('|')
+        if len(Sp) < 3:
+            return False
         # 校验签名
         return Sp[2]
 
@@ -41,6 +43,8 @@ class EASecure():
     def checkSign(self, OriginData, Key):
         # 数据分割
         Sp = str(OriginData).split('|')
+        if len(Sp) < 3:
+            return False
         # 待签名数据
         Signed = self.createSign(Sp[2], Key)
         # 校验签名
@@ -48,6 +52,9 @@ class EASecure():
 
     # 安全过滤
     def filter(self, Hash, Ip):
+
+        if Hash is False:
+            Hash = 'invaild-params'
 
         key = 'ea-filter-{}-{}'.format(Hash, Ip)
         keyIp = 'ea-filter-{}'.format(Ip)

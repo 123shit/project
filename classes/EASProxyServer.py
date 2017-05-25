@@ -73,8 +73,12 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                     # 检查数据签名
                     CheckSign = self.EASecure.checkSign(Buffer, _key)
                     if not CheckSign:
+                        #　签名有误，直接断开
                         self.wLog(IpAddress, "CheckSign Failed!")
                         logging.info(_lineBr)
+                        conn.close()
+                        return False
+
                     self.wLog(IpAddress, "CheckSign Success!")
 
                     # 发送数据给Mt4
