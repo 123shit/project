@@ -8,7 +8,7 @@ class EASProxy():
 
     _socket = False
     _socketListen = '0.0.0.0'
-    _socketPort = 29516
+    _socketPort = 9516
 
     def __init__(self):
         return
