@@ -7,9 +7,9 @@ EASecure = EASecure()
 testKey = '29dQrqxAJOgHA3IC5kXYNscvfjAOEB7u'
 testData = b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03|d14c4814e3834bc508ba8be48b1ea99a|999201705265.13:54:24.98541'
 
-for i in range(0, 1000):
+for i in range(0, 1):
     sk = socket.socket()
-    sk.connect(("120.25.66.191", 9516))  # 主动初始化与服务器端的连接
+    sk.connect(("127.0.0.1", 9516))  # 主动初始化与服务器端的连接
     sk.send(b'\x02\x00\x00\x00\x07\x014\xe7\x03\x00\x00\x03|4ff3346768a408bd3342dd6972338ce6|99920170525.17:46:58.32612685000')
     accept_data = sk.recv(1024)
     sk.close()
