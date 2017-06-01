@@ -1,1 +1,10 @@
-.gitlab-ci.yml
+before_script:
+  - apt-get update
+
+rspec:
+  script:
+    - bundle exec rspec
+
+rubocop:
+  script:
+    - bundle exec rubocop
