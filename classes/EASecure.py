@@ -1,6 +1,5 @@
 import hashlib
 import redis
-import platform
 import os
 import logging
 
@@ -58,6 +57,7 @@ class EASecure():
             ExtIp = 0
         # ip过滤
         if int(ExtIp) > 30:
+            self.blackHole(Ip)
             return False
         return True
 
@@ -100,7 +100,7 @@ class EASecure():
         return True
 
     def blackHole(self, Ip):
-        logging.critical("{} Has Been Block!".format(Ip))
+        logging.critical("{} Has Been Block By IpTables!".format(Ip))
         # 屏蔽IP
-        os.system("iptables -t filter -R INPUT 1 -s {}/16 -p tcp --dport 9516 -j REJECT".format(Ip))
+        os.system("iptables -I INPUT -s {} -j DROP".format(Ip))
         return False
