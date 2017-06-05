@@ -1,0 +1,1 @@
+[![build status](https://git.doohui.com/dooTechs/EASProxy/badges/master/build.svg)](https://git.doohui.com/dooTechs/EASProxy/commits/master)

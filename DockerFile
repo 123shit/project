@@ -1,0 +1,5 @@
+FROM python:3.4
+ADD .
+RUN pip3 install -r requirements.txt
+EXPOSE 9516
+CMD ["python3", "RunServer.py"]
