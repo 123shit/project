@@ -20,6 +20,7 @@ class EASecure():
     # 数据签名
     def createSign(self, RawData, Key):
         RawData = RawData.replace("'", '')
+        RawData = RawData.replace('"', '')
         return self.md5('|' +RawData + '|' + Key)
 
     # 拆分原始数据
