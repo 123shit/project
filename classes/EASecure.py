@@ -46,9 +46,9 @@ class EASecure():
         if len(Sp) < 3:
             return False
         # 待签名数据
-        Signed = self.createSign(Sp[2], Key)
+        Signed = self.createSign(Sp[len(Sp)-1], Key)
         # 校验签名
-        return Signed == Sp[1]
+        return Signed == Sp[len(Sp)-2]
 
     # 过滤IP
     def filterIp(self, Ip):
