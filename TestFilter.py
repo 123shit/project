@@ -5,9 +5,11 @@ from classes.EASecure import EASecure
 EASecure = EASecure()
 
 testKey = '29dQrqxAJOgHA3IC5kXYNscvfjAOEB7u'
-Buffer = b'\x02\x00\x00\x00\x07\x010\xe7\x03\x00\x00\x03|d14c4814e3834bc508ba8be48b1ea99a|99920170525.13:54:24.98541'
+Buffer = b'\x02\x00\x00\x00S\x012\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\x0e\x00\x00\x00\x00\x00\x00\x00x\x00a\x00u\x00u\x00s\x00d\x00\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcd|\x94\x00\xcc\xcc\xcc\xccfffff\x12\x94@\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\x03|471643d0bcf1cea4976d346cdb422c0d|57725620170606.14:36:41.02218818000'
 
 # 安全过滤
-CheckVail = EASecure.filter(EASecure.getSerial(Buffer), '127.0.0.1')
+#CheckVail = EASecure.filter(EASecure.getSerial(Buffer), '127.0.0.1')
+#签名校验
+checkSgin = EASecure.checkSign(Buffer,  testKey)
 
 print(CheckVail)

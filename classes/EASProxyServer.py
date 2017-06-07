@@ -1,10 +1,15 @@
 import socketserver
 import socket
 from classes.EASecure import EASecure
+from classes.Utils import Config
 import logging
 
+config = Config()
 _key = '29dQrqxAJOgHA3IC5kXYNscvfjAOEB7u'
 _lineBr = '<-------------------------------------'
+_MtServerHost = config.get('EASProxy', 'server_host')
+_MtServerPort = config.getInt('EASProxy', 'server_port')
+print(1)
 
 # Socket服务
 class EASProxyServer(socketserver.BaseRequestHandler):
@@ -13,9 +18,10 @@ class EASProxyServer(socketserver.BaseRequestHandler):
 
     # 发送数据到Mt4Server
     def SendMt4Server(self, Message):
+
         try:
             Mt4Connection = socket.socket()
-            Mt4Connection.connect(("fin.ds.fincdn.com", 9501))  # 主动初始化与服务器端的连接
+            Mt4Connection.connect((_MtServerHost, _MtServerPort))  # 主动初始化与服务器端的连接
             bMessage = []
             for tmp in Message:
                 if tmp == 124:
@@ -23,7 +29,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
                 else:
                     bMessage.append(tmp)
             bMessage = bytes(bMessage)
-            logging.info("Server Transmit Data: {}".format(bMessage))
+            logging.info("Server Transmit Data: [{}] {}".format(_MtServerHost, bMessage))
             Mt4Connection.send(bMessage)
             RespData = Mt4Connection.recv(1024)
             logging.info("Server Response Success: {} bytes".format(len(RespData)))
