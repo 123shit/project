@@ -22,12 +22,22 @@ class EASProxyServer(socketserver.BaseRequestHandler):
         try:
             Mt4Connection = socket.socket()
             Mt4Connection.connect((_MtServerHost, _MtServerPort))  # 主动初始化与服务器端的连接
+
+            #解析发送数据长度
+            nSendlen = int(0)
+            nSendlen = (int(str(Message[1]))) << 24
+            nSendlen |= (int(str(Message[2]))) << 16
+            nSendlen |= (int(str(Message[3])))<< 8
+            nSendlen |= (int(str(Message[4])))
+            nSendlen +=5
+
             bMessage = []
             for tmp in Message:
-                if tmp == 124:
+                if nSendlen <= 0:
                     break
                 else:
                     bMessage.append(tmp)
+                nSendlen -=1
             bMessage = bytes(bMessage)
             logging.info("Server Transmit Data: [{}] {}".format(_MtServerHost, bMessage))
             Mt4Connection.send(bMessage)
