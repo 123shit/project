@@ -10,5 +10,5 @@ do
         cd $basepath ; nohup python3 RunServer.py  > /dev/null &
         echo `date +%Y-%m-%d` `date +%H:%M:%S`  "restart RunServer" >>$basepath/shell.log
     fi
-    sleep 1
+    sleep 10
 done

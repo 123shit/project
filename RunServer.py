@@ -13,6 +13,7 @@ formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
 console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
+#每个分支修改运行文件名称，同时注意修改两个shell文件，每个分支不同的为本文件名称和配置信息
 if __name__ == '__main__':
     #kill监听端口进程
     # config = Config()
