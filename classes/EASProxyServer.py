@@ -1,15 +1,16 @@
 import socketserver
 import socket
 from classes.EASecure import EASecure
-from classes.Utils import Config
+import sys
 import logging
 
-config = Config()
+
 _key = '29dQrqxAJOgHA3IC5kXYNscvfjAOEB7u'
 _lineBr = '<-------------------------------------'
-_MtServerHost = config.get('EASProxy', 'server_host')
-_MtServerPort = config.getInt('EASProxy', 'server_port')
-print(1)
+
+ParamHost=sys.argv[2]
+ParamPort=sys.argv[3]
+
 
 # Socket服务
 class EASProxyServer(socketserver.BaseRequestHandler):
@@ -21,7 +22,7 @@ class EASProxyServer(socketserver.BaseRequestHandler):
 
         try:
             Mt4Connection = socket.socket()
-            Mt4Connection.connect((_MtServerHost, _MtServerPort))  # 主动初始化与服务器端的连接
+            Mt4Connection.connect((ParamHost, ParamPort))  # 主动初始化与服务器端的连接
 
             #解析发送数据长度
             nSendlen = int(0)

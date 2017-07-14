@@ -12,4 +12,4 @@ Buffer = b'\x02\x00\x00\x00S\x012\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xcc\xc
 #签名校验
 checkSgin = EASecure.checkSign(Buffer,  testKey)
 
-print(CheckVail)
+print(checkSgin)
