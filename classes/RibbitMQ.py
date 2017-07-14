@@ -3,9 +3,7 @@ import pika.exceptions
 import logging
 from classes.Utils import Config
 
-"""
-RabbitMQ
-"""
+
 class Rabbit:
 
     _channel = False
